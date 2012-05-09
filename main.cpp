@@ -82,9 +82,13 @@ void display()
     TLED::calculateGravityForces( mesh, state );
     TLED::doTimeStep( mesh, state );
     TLED::applyFloorConstraint( mesh, state, -1 );
+    TLED::copyStateToHost( state, mesh, hDisplacements );
+    hDisplacements[0].x = 0;
+    hDisplacements[0].y = 0;
+    hDisplacements[0].z = 0;
+    TLED::copyStateToDevice( state, mesh, hDisplacements );
   }
 
-  TLED::copyStateToHost( state, mesh, hDisplacements );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
   glDisable(GL_LIGHTING);
   glEnable(GL_DEPTH_TEST);
